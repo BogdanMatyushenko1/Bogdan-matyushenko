@@ -1,0 +1,15 @@
+import numpy as np
+x1 = 31
+x2 = 13 / 17 #
+x1_1 = 5.56
+x2_2 = 0.764
+def f(x, y):
+ return np.abs(x - y) / np.abs(x)
+_x1_ = f(x1, x1_1)
+_x2_ = f(x2, x2_2)
+if _x1_ < _x2_:
+ print("Перша :", round(_x1_, 5))
+elif _x2_ < _x1_:
+ print("Друга :", round(_x2_,5))
+else:
+ print("Обидві :", round(_x2_, 5))
