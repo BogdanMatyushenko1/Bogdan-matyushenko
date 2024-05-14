@@ -1,0 +1,62 @@
+import math
+import numpy as np
+from scipy.misc import derivative
+
+def f(x):
+    return 3*x**4 - 4*x**3 - x**2 - 2*x - 5
+
+eps = 0.0001
+
+def find_segments():
+    search_range = np.arange(-10, 10, 1)
+    a = None
+    previous_x = None
+    segments = []
+    for x in search_range:
+        x = round(x, 4)
+        current_x = f(x)
+        if previous_x != None and previous_x * current_x < 0:
+            segments.append((a, x))
+        a = x
+        previous_x = current_x
+    return segments
+
+segments = find_segments()
+
+for a, b in segments:
+    print(f'Found segment: [{a}, {b}]')
+
+import numpy as np
+import numdifftools as nd
+
+def rec(a, b, eps):
+    while (abs(a - b) > eps):
+        if f(a) * f((a + b) / 2) < 0:
+            b = (a + b) / 2
+        else:
+            a = (a + b) / 2
+    x = (a + b) / 2
+    print('x= ', round(x, 5), ' - Метод половинного ділення')
+
+def hord(a, b, eps):
+    derivative_f = nd.Derivative(f, n=1)
+def chord_method(a, b, eps):
+    if f(a) * f(b) > 0:
+        print("No root found in the given interval.")
+        return None
+    else:
+        x0 = a1
+        xi = b2
+        xi_1 = xi - (xi - x0) * f(xi) / (f(xi) - f(x0))
+        while abs(xi_1 - xi) > eps:
+            xi = xi_1
+            xi_1 = xi - (xi - x0) * f(xi) / (f(xi) - f(x0))
+        return xi_1
+
+a = 0.  # початок першого відрізка
+b = 1.  # кінець першого відрізка
+a1= 2
+b2= 3
+print(f' [{a}, {b}]')
+rec(a, b, eps)
+hord(a, b, eps)
