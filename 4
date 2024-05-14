@@ -1,0 +1,46 @@
+import numpy as np
+
+def solve_cramer(A, b):
+    det_A = np.linalg.det(A)
+    if det_A == 0:
+        return None
+    solutions = []
+    n = A.shape[0]
+    for i in range(n):
+        Ai = A.copy()
+        Ai[:, i] = b
+        solutions.append(np.linalg.det(Ai) / det_A)
+    return solutions
+
+def solve_matrix_inverse(A, b):
+    A_inv = np.linalg.inv(A)
+    return np.dot(A_inv, b)
+
+def solve_gauss(A, b):
+    return np.linalg.solve(A, b)
+
+def main():
+    n = int(input("Введіть розмірність матриці: "))
+
+    print("Введіть коефіцієнти матриці:")
+    A = np.zeros((n, n))
+    for i in range(n):
+        row = input(f"Введіть {n} значень для {i+1}-го рядка розділені пробілами: ").split()
+        A[i] = [float(x) for x in row]
+
+    b_input = input("Введіть значення вектора правих частин розділені пробілами: ").split()
+    b = np.array([float(x) for x in b_input])
+
+    print("\nМатриця коефіцієнтів:")
+    print(A)
+    print("Вектор правих частин:")
+    print(b)
+
+    print("\nРезультати за допомогою методу Крамера:", solve_cramer(A, b))
+    print("Результати за допомогою матричного методу (обернена матриця):", solve_matrix_inverse(A, b))
+    print("Результати за допомогою методу Гауса:", solve_gauss(A, b))
+
+    print("Перевірка за допомогою solve():", np.linalg.solve(A, b))
+
+if __name__ == "__main__":
+    main()
